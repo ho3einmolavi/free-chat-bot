@@ -2,6 +2,61 @@
 
 A real-time private messaging application built with Node.js, Express, Socket.io, and React.
 
+---
+
+## How It Works
+
+Private Chatroom is a secure, real-time messaging app that lets users chat one-on-one. Messages are delivered instantly via WebSockets and stored in memory for the session.
+
+### Key Features
+
+- **Real-time messaging** — Messages appear instantly using Socket.io
+- **User authentication** — Register/login with username and password
+- **Online status** — See when your contacts are online or offline
+- **Typing indicators** — Know when someone is typing a response
+- **Image sharing** — Send images up to 5MB
+- **Message history** — Conversations are grouped by date
+- **Mobile responsive** — Works seamlessly on desktop and mobile
+
+---
+
+## User Journey
+
+### 1. Registration / Login
+
+When you first open the app, you'll see the login screen. New users can create an account by clicking "Create one" and entering a username and password. Existing users simply sign in.
+
+### 2. Chat Dashboard
+
+After logging in, you land on the main chat dashboard:
+- **Left sidebar** — Shows your chat partners and their online/offline status
+- **Main area** — Displays the selected conversation (or a prompt to start chatting)
+
+### 3. Starting a New Chat
+
+Click the **"+ New Chat"** button in the sidebar to start a conversation:
+- Enter the username of the person you want to chat with
+- The chat window opens and loads any previous message history
+
+### 4. Sending Messages
+
+- Type your message in the input field at the bottom
+- Press **Enter** to send (or **Shift+Enter** for a new line)
+- Click the image icon to share a photo (max 5MB)
+- Messages are limited to 1000 characters
+
+### 5. Real-time Features
+
+- **Typing indicator** — When the other person is typing, you'll see animated dots
+- **Online status** — A green dot indicates the user is online
+- **Instant delivery** — Messages appear immediately on both sides
+
+### 6. Logout
+
+Click the logout icon in the sidebar header to sign out securely.
+
+---
+
 ## Prerequisites
 
 - Node.js 18+ and npm 9+ (for local development)
