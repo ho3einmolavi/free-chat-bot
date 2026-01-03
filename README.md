@@ -92,18 +92,25 @@ npm run dev
 
 ## Docker Deployment
 
-### Build and run
+### 1. Install dependencies locally
 
 ```bash
-docker-compose up -d --build
+cd server && npm install && cd ..
+cd client && npm install && cd ..
+```
+
+### 2. Build and run
+
+```bash
+docker compose up -d --build
 ```
 
 ### Access the application
 
-Open `http://localhost` in your browser.
+Open `http://localhost:3000` in your browser.
 
 ### Stop containers
 
 ```bash
-docker-compose down
+docker compose down
 ```
