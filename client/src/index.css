@@ -1,0 +1,141 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-gradient: linear-gradient(135deg, #0a0a1f 0%, #1a1a3e 50%, #0a0a1f 100%);
+  --safe-area-inset-top: env(safe-area-inset-top, 0px);
+  --safe-area-inset-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-area-inset-left: env(safe-area-inset-left, 0px);
+  --safe-area-inset-right: env(safe-area-inset-right, 0px);
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html {
+  height: 100%;
+  height: -webkit-fill-available;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
+  background: var(--bg-gradient);
+  font-family: 'Sora', sans-serif;
+  color: #e0e8ff;
+  overflow: hidden;
+  overscroll-behavior: none;
+  padding-top: var(--safe-area-inset-top);
+  padding-bottom: var(--safe-area-inset-bottom);
+  padding-left: var(--safe-area-inset-left);
+  padding-right: var(--safe-area-inset-right);
+}
+
+#root {
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
+}
+
+/* Touch-friendly scrolling */
+.scroll-touch {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Custom scrollbar - hidden on mobile, visible on desktop */
+@media (pointer: fine) {
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 3px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: rgba(168, 85, 247, 0.4);
+    border-radius: 3px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(168, 85, 247, 0.6);
+  }
+}
+
+/* Hide scrollbar on touch devices */
+@media (pointer: coarse) {
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  
+  * {
+    scrollbar-width: none;
+  }
+}
+
+/* Input autofill override */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+  -webkit-text-fill-color: #e0e8ff;
+  -webkit-box-shadow: 0 0 0px 1000px #1a1a3e inset;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+/* Prevent zoom on input focus for iOS */
+@media (max-width: 768px) {
+  input, textarea, select {
+    font-size: 16px !important;
+  }
+}
+
+/* Smooth animations */
+@layer utilities {
+  .glass {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .glass-strong {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+  }
+  
+  .glow-purple {
+    box-shadow: 0 0 30px rgba(168, 85, 247, 0.3);
+  }
+  
+  .glow-blue {
+    box-shadow: 0 0 30px rgba(0, 212, 255, 0.3);
+  }
+  
+  .text-gradient {
+    background: linear-gradient(135deg, #00d4ff 0%, #a855f7 50%, #ec4899 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  /* Mobile-first touch targets */
+  .touch-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Safe area padding utilities */
+  .pb-safe {
+    padding-bottom: max(1rem, var(--safe-area-inset-bottom));
+  }
+  
+  .pt-safe {
+    padding-top: max(0.5rem, var(--safe-area-inset-top));
+  }
+}

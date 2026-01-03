@@ -1,0 +1,23 @@
+services:
+  server:
+    build: ./server
+    container_name: chatbot-server
+    environment:
+      - PORT=3001
+      - CLIENT_URL=http://localhost
+    volumes:
+      - server-data:/app/data
+    restart: unless-stopped
+
+  client:
+    build: ./client
+    container_name: chatbot-client
+    ports:
+      - "80:80"
+    depends_on:
+      - server
+    restart: unless-stopped
+
+volumes:
+  server-data:
+
