@@ -150,7 +150,7 @@ function ChatLayout({
         {currentChat ? (
           <ChatWindow
             partner={currentChat.partner}
-            isOnline={onlineUsers.some(u => u.username === currentChat.partner && u.isOnline)}
+            isOnline={onlineUsers.find(u => u.username === currentChat.partner)?.isOnline ?? currentChat.isOnline}
             messages={messages}
             typingUser={typingUser}
             currentUser={user?.username}
