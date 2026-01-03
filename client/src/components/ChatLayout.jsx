@@ -48,7 +48,7 @@ function ChatLayout({
   }, [sidebarOpen]);
 
   return (
-    <div className="h-screen flex flex-col md:flex-row relative overflow-hidden">
+    <div className="h-full flex flex-col md:flex-row relative overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-40 -right-40 w-64 md:w-96 h-64 md:h-96 bg-neon-purple/10 rounded-full blur-3xl" />

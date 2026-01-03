@@ -29,7 +29,7 @@ function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden pt-safe pb-safe">
+    <div className="h-full flex items-center justify-center p-4 relative overflow-hidden">
       {/* Background decorations */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-40 -right-40 w-64 md:w-80 h-64 md:h-80 bg-neon-purple/20 rounded-full blur-3xl" />
