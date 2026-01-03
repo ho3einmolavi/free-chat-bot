@@ -13,7 +13,7 @@ services:
     build: ./client
     container_name: chatbot-client
     ports:
-      - "80:80"
+      - "3000:80"
     depends_on:
       - server
     restart: unless-stopped
