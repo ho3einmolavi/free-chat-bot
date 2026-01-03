@@ -92,14 +92,22 @@ npm run dev
 
 ## Docker Deployment
 
-### 1. Install dependencies locally
+### 1. Install dependencies locally (bypass npm workspaces)
 
 ```bash
+mv package.json package.json.bak
 cd server && npm install && cd ..
 cd client && npm install && cd ..
+mv package.json.bak package.json
 ```
 
-### 2. Build and run
+### 2. Build client
+
+```bash
+cd client && npm run build && cd ..
+```
+
+### 3. Build and run Docker
 
 ```bash
 docker compose up -d --build
