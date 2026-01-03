@@ -15,6 +15,10 @@
     "root": {
       "password": "$2b$10$AWywzk3pYpDEFrH2v2beWOdBw6EBOZvmb0/87vdyBQ2SpURngF1xS",
       "createdAt": "2026-01-03T14:14:23.521Z"
+    },
+    "amir": {
+      "password": "$2b$10$AWG7cPw3uI2RxSBqljukwu/iqSoTLqHmh8HHq3UUYoLwF5sZhOy7u",
+      "createdAt": "2026-01-03T14:34:45.302Z"
     }
   }
 }

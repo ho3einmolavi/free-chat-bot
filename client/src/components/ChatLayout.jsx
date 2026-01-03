@@ -15,6 +15,7 @@ function ChatLayout({
   error,
   startChat,
   sendMessage,
+  sendImage,
   sendTyping,
   closeChat,
   clearError
@@ -154,6 +155,7 @@ function ChatLayout({
             typingUser={typingUser}
             currentUser={user?.username}
             onSendMessage={sendMessage}
+            onSendImage={sendImage}
             onTyping={sendTyping}
             onClose={handleCloseChat}
             onOpenSidebar={() => setSidebarOpen(true)}

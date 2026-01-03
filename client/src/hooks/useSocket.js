@@ -139,6 +139,13 @@ export function useSocket(token) {
     }
   }, [socket, authenticated, currentChat]);
 
+  // Send an image
+  const sendImage = useCallback((imageData, mimeType) => {
+    if (socket && authenticated && currentChat) {
+      socket.emit('send-image', { to: currentChat.partner, imageData, mimeType });
+    }
+  }, [socket, authenticated, currentChat]);
+
   // Send typing indicator
   const sendTyping = useCallback((isTyping) => {
     if (socket && authenticated && currentChat) {
@@ -169,6 +176,7 @@ export function useSocket(token) {
     error,
     startChat,
     sendMessage,
+    sendImage,
     sendTyping,
     closeChat,
     clearError

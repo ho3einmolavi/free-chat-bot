@@ -2,6 +2,7 @@ import { getUsernameFromToken } from './auth.js';
 import { userExists } from './users.js';
 import {
   storeMessage,
+  storeImageMessage,
   getMessages,
   getRoomId,
   setUserOnline,
@@ -12,6 +13,8 @@ import {
   isUserOnline,
   sanitizeText
 } from './storage.js';
+
+const MAX_IMAGE_SIZE = 5 * 1024 * 1024; // 5MB in base64 is roughly 6.6MB string
 
 // Rate limiting: track message counts per user
 const rateLimits = new Map();
@@ -197,6 +200,83 @@ export function setupSocketHandlers(io) {
       }
       
       console.log(`[Socket] Message sent: ${authenticatedUser} -> ${targetUsername}`);
+    });
+    
+    // Send an image
+    socket.on('send-image', async ({ to, imageData, mimeType }) => {
+      if (!authenticatedUser) {
+        socket.emit('error', { message: 'Not authenticated' });
+        return;
+      }
+      
+      const targetUsername = to?.toLowerCase()?.trim();
+      
+      if (!targetUsername || !imageData) {
+        socket.emit('error', { message: 'Recipient and image are required' });
+        return;
+      }
+      
+      // Validate image data
+      if (!imageData.startsWith('data:image/')) {
+        socket.emit('error', { message: 'Invalid image data' });
+        return;
+      }
+      
+      // Check size (base64 string length)
+      if (imageData.length > MAX_IMAGE_SIZE * 1.4) {
+        socket.emit('error', { message: 'Image too large. Maximum size is 5MB' });
+        return;
+      }
+      
+      // Rate limit check
+      if (!checkRateLimit(authenticatedUser)) {
+        socket.emit('error', { message: 'Too many messages. Please wait a moment.' });
+        return;
+      }
+      
+      // Check if target user exists
+      const exists = await userExists(targetUsername);
+      if (!exists) {
+        socket.emit('error', { message: 'User not found' });
+        return;
+      }
+      
+      const roomId = getRoomId(authenticatedUser, targetUsername);
+      
+      // Check if this is a new conversation
+      const existingMessages = getMessages(authenticatedUser, targetUsername);
+      const isNewConversation = existingMessages.length === 0;
+      
+      // Store the image message
+      const message = storeImageMessage(authenticatedUser, targetUsername, imageData, mimeType);
+      
+      // Send to all sockets in the chat room
+      io.to(`chat:${roomId}`).emit('new-message', { message });
+      
+      // Also send to recipient's personal room
+      const recipientSockets = getUserSockets(targetUsername);
+      recipientSockets.forEach(socketId => {
+        io.to(socketId).emit('new-message', { message, roomId });
+      });
+      
+      // If this is a new conversation, update both users' chat partner lists
+      if (isNewConversation) {
+        const senderPartners = getChatPartners(authenticatedUser);
+        const senderUsers = senderPartners.map(username => ({
+          username,
+          isOnline: isUserOnline(username)
+        }));
+        io.to(`user:${authenticatedUser}`).emit('online-users', { users: senderUsers });
+        
+        const recipientPartners = getChatPartners(targetUsername);
+        const recipientUsers = recipientPartners.map(username => ({
+          username,
+          isOnline: isUserOnline(username)
+        }));
+        io.to(`user:${targetUsername}`).emit('online-users', { users: recipientUsers });
+      }
+      
+      console.log(`[Socket] Image sent: ${authenticatedUser} -> ${targetUsername}`);
     });
     
     // Typing indicator

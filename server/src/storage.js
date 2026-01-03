@@ -32,6 +32,28 @@ export function storeMessage(from, to, text) {
   return message;
 }
 
+// Store an image message
+export function storeImageMessage(from, to, imageData, mimeType) {
+  const roomId = getRoomId(from, to);
+  const message = {
+    id: `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+    from,
+    to,
+    type: 'image',
+    imageData,
+    mimeType,
+    timestamp: new Date().toISOString()
+  };
+  
+  if (!messages.has(roomId)) {
+    messages.set(roomId, []);
+  }
+  
+  messages.get(roomId).push(message);
+  
+  return message;
+}
+
 // Get messages for a conversation (last 50)
 export function getMessages(user1, user2, limit = 50) {
   const roomId = getRoomId(user1, user2);

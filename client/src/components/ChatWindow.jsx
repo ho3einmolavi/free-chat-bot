@@ -7,7 +7,8 @@ function ChatWindow({
   messages, 
   typingUser, 
   currentUser, 
-  onSendMessage, 
+  onSendMessage,
+  onSendImage,
   onTyping,
   onClose,
   onOpenSidebar
@@ -140,6 +141,7 @@ function ChatWindow({
               <div className="space-y-2 md:space-y-3">
                 {dateMessages.map((message, index) => {
                   const isOwn = message.from === currentUser;
+                  const isImage = message.type === 'image';
                   return (
                     <div
                       key={message.id || index}
@@ -151,10 +153,19 @@ function ChatWindow({
                           ? 'bg-gradient-to-r from-neon-purple to-neon-pink text-white rounded-2xl rounded-br-md' 
                           : 'glass-strong text-midnight-100 rounded-2xl rounded-bl-md'
                         }
-                        px-3 py-2 md:px-4 md:py-3
+                        ${isImage ? 'p-1.5 md:p-2' : 'px-3 py-2 md:px-4 md:py-3'}
                       `}>
-                        <p className="break-words whitespace-pre-wrap text-sm md:text-base">{message.text}</p>
-                        <p className={`text-[10px] md:text-xs mt-1 ${isOwn ? 'text-white/60' : 'text-midnight-400'}`}>
+                        {isImage ? (
+                          <img 
+                            src={message.imageData} 
+                            alt="Shared image"
+                            className="rounded-xl max-h-64 md:max-h-80 w-auto cursor-pointer hover:opacity-90 transition-opacity"
+                            onClick={() => window.open(message.imageData, '_blank')}
+                          />
+                        ) : (
+                          <p className="break-words whitespace-pre-wrap text-sm md:text-base">{message.text}</p>
+                        )}
+                        <p className={`text-[10px] md:text-xs mt-1 ${isImage ? 'px-1' : ''} ${isOwn ? 'text-white/60' : 'text-midnight-400'}`}>
                           {formatTime(message.timestamp)}
                         </p>
                       </div>
@@ -183,7 +194,7 @@ function ChatWindow({
       </div>
 
       {/* Message Input */}
-      <MessageInput onSendMessage={onSendMessage} onTyping={onTyping} />
+      <MessageInput onSendMessage={onSendMessage} onSendImage={onSendImage} onTyping={onTyping} />
     </div>
   );
 }

@@ -1,9 +1,12 @@
 import { useState, useRef, useEffect } from 'react';
 
-function MessageInput({ onSendMessage, onTyping }) {
+const MAX_IMAGE_SIZE = 5 * 1024 * 1024; // 5MB
+
+function MessageInput({ onSendMessage, onSendImage, onTyping }) {
   const [message, setMessage] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const inputRef = useRef(null);
+  const fileInputRef = useRef(null);
   const typingTimeoutRef = useRef(null);
 
   useEffect(() => {
@@ -63,9 +66,56 @@ function MessageInput({ onSendMessage, onTyping }) {
     }
   };
 
+  const handleImageSelect = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    // Validate file type
+    if (!file.type.startsWith('image/')) {
+      alert('Please select an image file');
+      return;
+    }
+
+    // Validate file size
+    if (file.size > MAX_IMAGE_SIZE) {
+      alert('Image too large. Maximum size is 5MB');
+      return;
+    }
+
+    // Convert to base64
+    const reader = new FileReader();
+    reader.onload = () => {
+      const base64 = reader.result;
+      onSendImage(base64, file.type);
+    };
+    reader.readAsDataURL(file);
+
+    // Reset input
+    e.target.value = '';
+  };
+
   return (
     <form onSubmit={handleSubmit} className="p-2.5 md:p-4 glass-strong border-t border-white/5 pb-safe">
       <div className="flex items-end gap-2 md:gap-3">
+        {/* Image upload button */}
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept="image/*"
+          onChange={handleImageSelect}
+          className="hidden"
+        />
+        <button
+          type="button"
+          onClick={() => fileInputRef.current?.click()}
+          className="w-11 h-11 md:w-12 md:h-12 rounded-xl flex items-center justify-center flex-shrink-0 bg-midnight-800/50 hover:bg-midnight-700/50 active:bg-midnight-600/50 text-midnight-400 hover:text-midnight-200 transition-all duration-200 touch-target"
+          title="Send image"
+        >
+          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          </svg>
+        </button>
+
         <div className="flex-1 relative">
           <textarea
             ref={inputRef}
