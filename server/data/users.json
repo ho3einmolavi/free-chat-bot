@@ -1,24 +1,3 @@
 {
-  "users": {
-    "alice": {
-      "password": "$2b$10$R/fEjwPKEKA7ChkmzclnieegOn9ZSZnR8Z4oD/uqmAp/KEgCXbE7W",
-      "createdAt": "2025-12-31T22:26:56.187Z"
-    },
-    "test": {
-      "password": "$2b$10$0Oix8/GMQND1Mc0D.kCBAO4UGzWWTUvjhir5I8RdIwhT8WEoyJNLS",
-      "createdAt": "2025-12-31T22:44:22.823Z"
-    },
-    "test1": {
-      "password": "$2b$10$Jx41uNPIyi5fF43.RSGiReSC/CNoFJKYjA49LRUGaT9kclJfD8RZy",
-      "createdAt": "2025-12-31T22:44:45.381Z"
-    },
-    "root": {
-      "password": "$2b$10$AWywzk3pYpDEFrH2v2beWOdBw6EBOZvmb0/87vdyBQ2SpURngF1xS",
-      "createdAt": "2026-01-03T14:14:23.521Z"
-    },
-    "amir": {
-      "password": "$2b$10$AWG7cPw3uI2RxSBqljukwu/iqSoTLqHmh8HHq3UUYoLwF5sZhOy7u",
-      "createdAt": "2026-01-03T14:34:45.302Z"
-    }
-  }
+  "users": {}
 }
